@@ -1,5 +1,6 @@
-import React, { Component, useState } from "react";
+import React, { Component, useContext, useState } from "react";
 import { View, Text, StyleSheet, Dimensions, TextInput } from "react-native";
+import { UserContext } from "../../Contexts/UserContext";
 import Message from "../../UI/Message/Message";
 import AuthButton from "./Auth_components/AuthButton";
 import ErrorInput from "./Auth_components/ErrorInput";
@@ -14,6 +15,8 @@ const SignUpForm = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
+
+  const userContext = useContext(UserContext);
 
   function handleEmail(e) {
     setEmailInput(e);
@@ -41,6 +44,10 @@ const SignUpForm = () => {
       userName.length < 21
     ) {
       alert(emailInput + "\nEnregistré avec succès.");
+      userContext.setUser({
+        email: emailInput,
+        username: userName,
+      });
     } else {
       settingOfUsernameErrorMessage();
       setEmailError(emailInput.includes("@") ? "" : "Wrong email format.");

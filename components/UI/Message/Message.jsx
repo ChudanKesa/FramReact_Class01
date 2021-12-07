@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
     maxWidth: 500,
   },
   body: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: "comic sans ms",
   },
 
   title: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "rgb(240, 10, 240)",
+    color: "rgb(230,60,255)",
     alignSelf: "center",
   },
   textColor: {

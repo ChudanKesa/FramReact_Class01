@@ -1,18 +1,28 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { UserContext } from "./components/Contexts/UserContext";
 import Authentification from "./components/Pages/Authentification/Authentification";
 import Profil from "./components/Pages/Profil/Profil";
-import Message from "./components/UI/Message/Message";
+import ProfilStack from "./components/Stacks/ProfilStack";
 
 export default function App() {
-  const user = null;
+  const fakeUser = {
+    email: "titi@toto.fr",
+    username: "Roger",
+  };
+  const [user, setUser] = useState(fakeUser);
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {user ? <Profil /> : <Authentification />}
-    </View>
+    <UserContext.Provider value={{ user, setUser }}>
+      <NavigationContainer>
+        <View style={styles.container}>
+          <StatusBar style="auto" />
+          {user ? <ProfilStack /> : <Authentification />}
+        </View>
+      </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 
@@ -20,7 +30,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "whitesmoke",
-    alignItems: "center",
     justifyContent: "center",
   },
   text: {
