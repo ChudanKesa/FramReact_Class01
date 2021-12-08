@@ -11,6 +11,7 @@ export default function App() {
   const fakeUser = {
     email: "titi@toto.fr",
     username: "Roger",
+    about: "J'aime les spaghettis.",
   };
   const [user, setUser] = useState(fakeUser);
 

@@ -10,9 +10,11 @@ import { Camera } from "expo-camera";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import { UserContext } from "../../Contexts/UserContext";
+import * as MediaLibrary from "expo-media-library";
 
 const Cam = ({ navigation }) => {
   const [cameraPermission, setCameraPermission] = useState();
+  const [mediaPermission, setMediaPermission] = useState();
   const [cameraType, setcameraType] = useState(Camera.Constants.Type.back);
   const cameraRef = useRef();
 
@@ -34,14 +36,20 @@ const Cam = ({ navigation }) => {
         ? [...userContext.user.pictures, img.uri]
         : [img.uri],
     });
+    if (mediaPermission) {
+      const savedImage = await MediaLibrary.createAssetAsync(img.uri);
+      console.log(savedImage);
+    }
     console.log(userContext.user);
     navigation.goBack();
   };
 
   useEffect(() => {
     (async () => {
-      const permission = await Camera.requestCameraPermissionsAsync();
-      setCameraPermission(permission.granted);
+      const camera = await Camera.requestCameraPermissionsAsync();
+      setCameraPermission(camera.granted);
+      const media = await MediaLibrary.requestPermissionsAsync();
+      setMediaPermission(media.granted);
     })();
   }, []);
 

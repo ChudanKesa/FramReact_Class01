@@ -1,9 +1,19 @@
 import React, { Component, useContext } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Button,
+} from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 import { Entypo } from "@expo/vector-icons";
 import { UserContext } from "../../Contexts/UserContext";
+import { AntDesign } from "@expo/vector-icons";
+import Message from "../../UI/Message/Message";
+import AuthButton from "../Authentification/Auth_components/AuthButton";
 
 const Profil = ({ navigation }) => {
   console.log(navigation);
@@ -17,7 +27,9 @@ const Profil = ({ navigation }) => {
       if (!pickedImage.cancelled) {
         userContext.setUser({
           ...userContext.user,
-          avatar: pickedImage.uri,
+          pictures: userContext.user.pictures
+            ? [...userContext.user.pictures, pickedImage.uri]
+            : [pickedImage.uri],
         });
       }
     }
@@ -27,9 +39,13 @@ const Profil = ({ navigation }) => {
     navigation.push("CAMERA");
   }
 
+  function goToEdit() {
+    navigation.push("INFOS");
+  }
+
   return (
     <View style={styles.container}>
-      <View>
+      <View style={{ marginBottom: 30 }}>
         <Image
           style={styles.image}
           source={{
@@ -47,6 +63,28 @@ const Profil = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <Message>
+        <View style={styles.equalDisplay}>
+          <Text style={styles.text}>Email:</Text>
+          <Text style={styles.text}>
+            {userContext.user.email ? userContext.user.email : "??????"}
+          </Text>
+        </View>
+        <View style={styles.equalDisplay}>
+          <Text style={styles.text}>Username:</Text>
+          <Text style={styles.text}>
+            {userContext.user.username ? userContext.user.username : "??????"}
+          </Text>
+        </View>
+        <View style={styles.equalDisplay}>
+          <Text style={styles.text}>À propos:</Text>
+          <Text style={styles.text}>
+            {userContext.user.about ? userContext.user.about : "??????"}
+          </Text>
+        </View>
+
+        <AuthButton message="Modifier" action={goToEdit} />
+      </Message>
     </View>
   );
 };
@@ -68,6 +106,17 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  text: {
+    color: "whitesmoke",
+    fontSize: 18,
+    marginLeft: 15,
+  },
+  equalDisplay: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginBottom: 5,
   },
 });
 

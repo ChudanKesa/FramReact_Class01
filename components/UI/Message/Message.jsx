@@ -6,9 +6,15 @@ import { StyleSheet, View, Text, Dimensions, TextInput } from "react-native";
 const Message = (props) => {
   return (
     <View style={styles.container}>
-      <View style={props.children && { marginBottom: 30 }}>
-        <Text style={styles.title}>{props.title}</Text>
-        <Text style={[styles.body, styles.textColor]}>{props.body}</Text>
+      <View
+        style={
+          props.children && (props.title || props.body) && { marginBottom: 30 }
+        }
+      >
+        {props.title && <Text style={styles.title}>{props.title}</Text>}
+        {props.body && (
+          <Text style={[styles.body, styles.textColor]}>{props.body}</Text>
+        )}
       </View>
       <View>{props.children}</View>
     </View>
